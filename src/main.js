@@ -11,6 +11,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 import i18n from '@/assets/scripts/lang.js'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import BtnMore from '@/components/UI/BtnMore.vue'
 
 const app = createApp(App)
 const pinia = createPinia()
@@ -21,6 +22,7 @@ const errorimage = ('src/assets/images/noimage.jpg')
 
 library.add(fas, far, fab)
 app.component('fa', FontAwesomeIcon)
+app.component('BtnMore', BtnMore)
 app.use(ElementPlus)
 app.use(VueLazyload)
 app.use(i18n)
