@@ -1,11 +1,24 @@
 .main__upcoming {
     position: relative;
-    width: 1050px;
+    width: 100%;
+    max-width: 1320px; /* изменено с фиксированных 1050px */
     height: 350px;
     overflow: hidden;
     border-radius: 10px;
     margin: 0 auto;
     margin-top: 100px;
+
+    @include media(768) {
+        margin-top: 0;
+    }
+
+    @include media(600) {
+        height: 300px;
+    }
+
+    @include media(480) {
+        height: 250px;
+    }
 
     &-next {
         position: absolute;
@@ -60,6 +73,14 @@
             gap: 15px;
             padding: 15px;
 
+            @include media(600) {
+                padding: 0 25px;
+            }
+
+            @include media(480) {
+                padding: 0 15px;
+            }
+
             & .next {
                 font-size: 16px;
                 line-height: 1.2;
@@ -71,6 +92,15 @@
             font-size: 18px;
             line-height: 1.2;
             color: #FFFFFF;
+
+            @include media(600) {
+                font-size: 30px;
+            }
+
+            @include media(480) {
+                font-size: 24px;
+                margin-bottom: 5px;
+            }
         }
     }
 
@@ -97,6 +127,14 @@
         background: rgba(20, 20, 20, 0.76);
         padding: 0 50px;
 
+        @include media(600) {
+            padding: 0 25px;
+        }
+
+        @include media(480) {
+            padding: 0 15px;
+        }
+
         &-title {
             color: rgb(255, 255, 255);
             font-size: 50px;
@@ -110,12 +148,26 @@
             @include media(870) {
                 font-size: 40px;
             }
+
+            @include media(600) {
+                font-size: 30px;
+            }
+
+            @include media(480) {
+                font-size: 24px;
+                margin-bottom: 5px;
+            }
         }
 
         &-meta {
             display: flex;
             gap: 15px;
             margin-bottom: 15px;
+
+            @include media(480) {
+                gap: 10px;
+                margin-bottom: 10px;
+            }
         }
 
         &-genre, &-episodes {
@@ -124,6 +176,11 @@
             background-color: rgba(0, 0, 0, 0.3);
             padding: 5px 10px;
             border-radius: 4px;
+
+            @include media(480) {
+                font-size: 12px;
+                padding: 3px 6px;
+            }
         }
 
         &-text {
@@ -141,6 +198,18 @@
                 -webkit-line-clamp: 3;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
+            }
+
+            @include media(600) {
+                font-size: 16px;
+                -webkit-line-clamp: 3;
+                margin-bottom: 15px;
+            }
+
+            @include media(480) {
+                font-size: 14px;
+                -webkit-line-clamp: 2;
+                margin-bottom: 10px;
             }
         }
 
@@ -171,6 +240,14 @@
         padding: 20px;
         gap: 10px;
 
+        @include media(600) {
+            padding: 15px;
+        }
+
+        @include media(480) {
+            padding: 10px;
+        }
+
         &-arrow {
             position: relative;
             width: 40px;
@@ -187,6 +264,12 @@
 
             &:hover {
                 background-color: rgba(0, 0, 0, 0.7);
+            }
+
+            @include media(480) {
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
             }
         }
 
@@ -207,6 +290,16 @@
         display: flex;
         gap: 8px;
         z-index: 5;
+
+        @include media(480) {
+            bottom: 10px;
+            gap: 6px;
+
+            &-dot {
+                width: 8px;
+                height: 8px;
+            }
+        }
         
         &-dot {
             width: 10px;
@@ -252,8 +345,6 @@
     opacity: 0;
     transform: scale(1.2);
 }
-
-
 
 .upcoming-enter-active,
 .upcoming-leave-active {

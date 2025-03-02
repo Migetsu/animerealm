@@ -33,10 +33,17 @@ body {
 }
 
 .container {
-    max-width: 1020px;
+    max-width: 1320px;
     width: 100%;
     margin: 0 auto;
     padding: 0 15px;
+}
+
+// Новый, более широкий контейнер
+.container-wide {
+    max-width: 1320px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 @keyframes scroll {

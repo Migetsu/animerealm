@@ -11,7 +11,7 @@
                     </div>
                     <p class="main__upcoming-content-text">{{ movie.overview }}</p>
                     <div class="main__upcoming-content-action">
-                        <BtnMore :id="movie.id" />
+                        <BtnMore :id="movie.id" class="upcoming-btn-more" />
                     </div>
                 </div>
             </div>
@@ -25,7 +25,6 @@
                 </div>
             </div>
             
-            <!-- Пагинация -->
             <div class="main__upcoming-pagination">
                 <div v-for="(_, dotIdx) in totalSlides" :key="dotIdx" 
                      class="main__upcoming-pagination-dot"
