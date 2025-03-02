@@ -39,7 +39,6 @@ const indexStore = useIndexStore();
 
 const cardsToShow = ref(6); 
 
-
 const updateCardsToShow = () => {
     if (window.innerWidth > 768 && window.innerWidth <= 1024) {
         cardsToShow.value = 4; 

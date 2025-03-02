@@ -1,7 +1,7 @@
 <template>
     <section class="main__upcoming">
         <div class="main__upcoming-slider" :style="{ transform: `translateX(-${slideIndex * 100}%)` }">
-            <div class="main__upcoming-slide" v-for="(movie, idx) in upcomings" :key="movie.id">
+            <div class="main__upcoming-slide" v-for="movie in upcomings" :key="movie.id">
                 <img src="@/assets/images/bg.svg" alt="" class="main__upcoming-slide-img">
                 <div class="main__upcoming-content">
                     <div class="main__upcoming-info">
@@ -79,9 +79,8 @@ const upcomings = ref([
 const slideIndex = ref(0);
 const timeout = ref(null);
 const sliding = ref(false);
-const slideDelay = 7000; // Время показа каждого слайда
+const slideDelay = 7000;
 
-// Основная функция автоматического перелистывания
 const startAutoSlide = () => {
     clearTimeout(timeout.value);
     timeout.value = setTimeout(() => {
@@ -93,7 +92,6 @@ const startAutoSlide = () => {
     }, slideDelay);
 };
 
-// Переход к следующему слайду
 const slideNext = () => {
     if (sliding.value) return;
     sliding.value = true;
@@ -103,10 +101,9 @@ const slideNext = () => {
     setTimeout(() => {
         sliding.value = false;
         startAutoSlide();
-    }, 600); // Время анимации + небольшой запас
+    }, 600);
 };
 
-// Переход к предыдущему слайду
 const slidePrev = () => {
     if (sliding.value) return;
     sliding.value = true;
@@ -119,7 +116,6 @@ const slidePrev = () => {
     }, 600);
 };
 
-// Переход к конкретному слайду
 const slideTo = (index) => {
     if (sliding.value || slideIndex.value === index) return;
     sliding.value = true;
@@ -140,5 +136,3 @@ onBeforeUnmount(() => {
     clearTimeout(timeout.value);
 });
 </script>
-
-<style></style>

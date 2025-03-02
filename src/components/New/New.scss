@@ -44,16 +44,15 @@
         }
 
         @include media(400) {
-            gap: 8px; // Уменьшаем отступ для маленьких экранов
+            gap: 8px; 
         }
         
         @include media(350) {
-            gap: 5px; // Еще меньше отступ для очень маленьких экранов
-            justify-content: space-between; // Распределение по ширине
-            padding: 0 5px; // Меньший отступ от краев
+            gap: 5px; 
+            justify-content: space-between; 
+            padding: 0 5px; 
         }
 
-        // На больших экранах центрируем и учитываем отступы контейнера
         @media (min-width: 1025px) {
             justify-content: space-between;
         }
