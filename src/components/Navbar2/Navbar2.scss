@@ -49,8 +49,8 @@
             margin: auto;
 
             @include media(375) {
-                max-width: 55px;
-                // font-size: 11px;
+                max-width: 60px;
+                font-size: 14px;
             }
 
             & span {
