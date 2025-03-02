@@ -1,17 +1,45 @@
 <template>
-    <Transition name="upcoming" mode="out-in">
-        <section class="main__upcoming">
-            <UpcomingItem v-for="(movie, idx) in upcomings" :key="movie.id" :movie="movie" :idx="idx"
-                :slideView="slideView" :next="upcomings[idx + 1 == upcomings.length ? 0 : idx + 1]"
-                :totalSlides="upcomings.length"
-                @slideNext="slideNext" @slidePrev="slidePrev" @slideTo="slideTo" />
-        </section>
-    </Transition>
+    <section class="main__upcoming">
+        <div class="main__upcoming-slider" :style="{ transform: `translateX(-${slideIndex * 100}%)` }">
+            <div class="main__upcoming-slide" v-for="(movie, idx) in upcomings" :key="movie.id">
+                <img src="@/assets/images/bg.svg" alt="" class="main__upcoming-slide-img">
+                <div class="main__upcoming-content">
+                    <div class="main__upcoming-info">
+                        <h1 class="main__upcoming-content-title">{{ movie.title }}</h1>
+                        <div class="main__upcoming-content-meta">
+                            <span class="main__upcoming-content-genre">{{ movie.genre }}</span>
+                            <span class="main__upcoming-content-episodes">{{ movie.episodes }} серий</span>
+                        </div>
+                        <p class="main__upcoming-content-text">{{ movie.overview }}</p>
+                        <div class="main__upcoming-content-action">
+                            <BtnMore :id="movie.id" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main__upcoming-nav">
+            <div class="main__upcoming-nav-arrow main__upcoming-nav-prev" @click="slidePrev">
+                <span>&#10094;</span>
+            </div>
+            <div class="main__upcoming-nav-arrow main__upcoming-nav-next" @click="slideNext">
+                <span>&#10095;</span>
+            </div>
+        </div>
+        
+        <div class="main__upcoming-pagination">
+            <div v-for="(_, dotIdx) in upcomings.length" :key="dotIdx" 
+                 class="main__upcoming-pagination-dot"
+                 :class="{ 'active': slideIndex === dotIdx }"
+                 @click="slideTo(dotIdx)">
+            </div>
+        </div>
+    </section>
 </template>
 
 <script setup>
-import UpcomingItem from "@/components/Upcoming/UpcomingItem.vue";
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const upcomings = ref([
     {
@@ -46,43 +74,71 @@ const upcomings = ref([
         genre: 'Мистика, Ужасы',
         episodes: 10
     }
-])
-const slideView = ref(0)
-const timeout = ref(null)
+]);
 
-const slide = () => {
-    if (upcomings.value.length - 1 == slideView.value) {
-        slideView.value = 0
-    } else {
-        slideView.value++
-    }
-    timeout.value = setTimeout(slide, 10000);
-}
+const slideIndex = ref(0);
+const timeout = ref(null);
+const sliding = ref(false);
+const slideDelay = 7000; // Время показа каждого слайда
 
-const slideNext = () => {
-    clearTimeout(timeout.value)
-    slide()
-}
-
-const slidePrev = () => {
-    clearTimeout(timeout.value)
-    if (slideView.value === 0) {
-        slideView.value = upcomings.value.length - 1
-    } else {
-        slideView.value--
-    }
-    timeout.value = setTimeout(slide, 10000);
-}
-
-const slideTo = (index) => {
+// Основная функция автоматического перелистывания
+const startAutoSlide = () => {
     clearTimeout(timeout.value);
-    slideView.value = index;
-    timeout.value = setTimeout(slide, 10000);
-}
+    timeout.value = setTimeout(() => {
+        if (!sliding.value) {
+            slideNext();
+        } else {
+            startAutoSlide();
+        }
+    }, slideDelay);
+};
 
-onMounted(async () => {
-    timeout.value = setTimeout(slide, 10000);
-})
+// Переход к следующему слайду
+const slideNext = () => {
+    if (sliding.value) return;
+    sliding.value = true;
+    
+    slideIndex.value = (slideIndex.value + 1) % upcomings.value.length;
+    
+    setTimeout(() => {
+        sliding.value = false;
+        startAutoSlide();
+    }, 600); // Время анимации + небольшой запас
+};
+
+// Переход к предыдущему слайду
+const slidePrev = () => {
+    if (sliding.value) return;
+    sliding.value = true;
+    
+    slideIndex.value = (slideIndex.value - 1 + upcomings.value.length) % upcomings.value.length;
+    
+    setTimeout(() => {
+        sliding.value = false;
+        startAutoSlide();
+    }, 600);
+};
+
+// Переход к конкретному слайду
+const slideTo = (index) => {
+    if (sliding.value || slideIndex.value === index) return;
+    sliding.value = true;
+    
+    slideIndex.value = index;
+    
+    setTimeout(() => {
+        sliding.value = false;
+        startAutoSlide();
+    }, 600);
+};
+
+onMounted(() => {
+    startAutoSlide();
+});
+
+onBeforeUnmount(() => {
+    clearTimeout(timeout.value);
+});
 </script>
 
 <style></style>
